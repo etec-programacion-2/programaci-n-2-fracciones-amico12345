@@ -16,8 +16,8 @@ class Fraccion(
         }
     
     init {
-        this.numerador = numerador
-        this.denominador = denominador
+        this.numerador = _numerador
+        this.denominador = _denominador
     }
     
     override fun toString(): String {
