@@ -27,4 +27,23 @@ class Fraccion(
     fun mostrar() {
         println(toString())
     }
+
+    operator fun plus(otra: Fraccion): Fraccion{
+        val numeradorSuma = this.numerador * otra.denominador + otra.numerador * this.denominador
+        val denominadorSuma = this.denominador * otra.denominador
+        return Fraccion(numeradorSuma, denominadorSuma)
+    }
+
+    operator fun minus(otra: Fraccion): Fraccion{
+        val numeradorResta = this.numerador * otra.denominador - otra.numerador * this.denominador
+        val denominadorResta = this.denominador * otra.denominador
+        return Fraccion(numeradorResta, denominadorResta)
+    }
+    fun _simplificar(): Fraccion {
+        val mcd = mcd(this.numerador, this.denominador)
+        return Fraccion(this.numerador / mcd, this.denominador / mcd)
+    }
+    private fun mcd(a: Int, b: Int): Int {
+        return if (b == 0) a else mcd(b, a % b)
+    }
 }

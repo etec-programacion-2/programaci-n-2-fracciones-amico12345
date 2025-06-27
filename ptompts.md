@@ -127,4 +127,37 @@ BUILD FAILED in 837ms
 Configuration cache entry reused.
 
 explicame elerror "
-- Respuesta: "package org.example
+- Respuesta: "Explicación del Error
+
+El núcleo de tu problema es esta línea:
+
+Error: no se ha encontrado o cargado la clase principal org.example.AppKt
+Causado por: java.lang.ClassNotFoundException: org.example.AppKt
+
+Esto nos dice que la Máquina Virtual de Java (JVM) está buscando una clase llamada AppKt dentro del paquete org.example, pero no puede encontrarla.
+
+Aquí te explico por qué está sucediendo esto:
+
+    AppKt es el nombre de clase principal por defecto: Cuando usas Kotlin y no especificas explícitamente una clase principal diferente, Gradle (o el sistema de compilación) espera encontrar tu función main dentro de un archivo que, al compilarse, resulta en una clase llamada AppKt. Esto generalmente proviene de un archivo llamado App.kt con una función main en él.
+
+    Falta la función main en App.kt (o similar): En tu archivo Calculadora.kt anterior, colocaste correctamente la función main allí. Sin embargo, parece que la configuración de tu proyecto o el archivo build.gradle está configurado para buscar org.example.AppKt como punto de entrada, pero ese archivo (o su clase compilada) no existe, tiene un nombre diferente o no se está incluyendo correctamente en la compilación.
+
+    Execution failed for task ':app:run': Esto simplemente significa que el comando que Gradle intentó ejecutar para iniciar tu aplicación falló porque no pudo iniciarla debido a la clase principal faltante.
+
+Qué Debes Hacer
+
+Tienes dos formas principales de solucionar esto, dependiendo de tu estructura de proyecto preferida:
+
+Opción 1: Renombrar Calculadora.kt y Asegurar la Función main Correcta
+
+Esta es probablemente la solución más sencilla para tu configuración actual.
+
+    Renombra Calculadora.kt a App.kt:
+
+        Navega a tu directorio src/main/kotlin/org/example/.
+
+        Cambia el nombre del archivo Calculadora.kt a App.kt.
+
+    Verifica la función main:
+
+        Asegúrate de que tu función main todavía esté definida dentro de este archivo App.kt."
