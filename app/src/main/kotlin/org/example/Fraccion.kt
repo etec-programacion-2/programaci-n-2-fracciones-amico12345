@@ -37,8 +37,22 @@ class Fraccion(
     operator fun minus(otra: Fraccion): Fraccion{
         val numeradorResta = this.numerador * otra.denominador - otra.numerador * this.denominador
         val denominadorResta = this.denominador * otra.denominador
-        return Fraccion(numeradorResta, denominadorResta)
+        return Fraccion(numeradorResta, denominadorResta)    
     }
+
+    operator fun times(otra: Fraccion): Fraccion {
+        val numeradorMultiplicacion = this.numerador * otra.numerador
+        val denominadorMultiplicacion = this.denominador * otra.denominador
+        return Fraccion(numeradorMultiplicacion, denominadorMultiplicacion)
+    }
+
+    operator fun div(otra: Fraccion): Fraccion {
+        if (otra.numerador == 0) throw IllegalArgumentException("No se puede dividir por cero")
+        val numeradorDivision = this.numerador * otra.denominador
+        val denominadorDivision = this.denominador * otra.numerador
+        return Fraccion(numeradorDivision, denominadorDivision)
+    }
+
     fun _simplificar(): Fraccion {
         val mcd = mcd(this.numerador, this.denominador)
         return Fraccion(this.numerador / mcd, this.denominador / mcd)
