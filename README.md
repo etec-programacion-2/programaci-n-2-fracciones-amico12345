@@ -6,11 +6,11 @@
 
 ## Información del Alumno
 
-**Nombre y Apellido:** [Escribir aquí tu nombre y apellido]
+**Nombre y Apellido:** [Santino Amico]
 
-**Curso:** [Escribir aquí tu curso]
+**Curso:** [4°I]
 
-**Fecha de entrega:** [Escribir aquí la fecha de entrega]
+**Fecha de entrega:** [2025-08-01]
 
 ---
 
