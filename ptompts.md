@@ -161,3 +161,154 @@ Esta es probablemente la solución más sencilla para tu configuración actual.
     Verifica la función main:
 
         Asegúrate de que tu función main todavía esté definida dentro de este archivo App.kt."
+
+### Prompt 4
+- Fecha: 2025-08-01
+- Herramienta: Gemini
+- Prompt: Hola, te enviare una consigna y 2 codigos el primero App.kt y el segundo Fraccion.kt necesito que analices la consigna y la realieces, estoy usando programacion oriuentada a objetos 
+
+Consigna
+
+1. **Validaciones de entrada:**
+
+- Verificar que el denominador nunca sea cero en cualquier operación
+
+- Manejar fracciones negativas correctamente
+
+- Validar que los parámetros de entrada sean válidos
+
+He analizado los requisitos y el código que proporcionaste. He realizado algunas modificaciones en el archivo Fraccion.kt para asegurar que cumple con todas las validaciones y maneja correctamente las fracciones negativas. También he actualizado App.kt con un ejemplo para demostrar estas mejoras.
+
+Resumen de cambios:
+
+    Manejo de fracciones negativas: Ahora, en el bloque init, la clase Fraccion normaliza automáticamente las fracciones. Si el denominador es negativo, el signo se mueve al numerador (por ejemplo, 
+    1/−2
+
+    se convierte en$$-1/2$$). Esto asegura que todas las fracciones se almacenen de manera consistente, lo que facilita las comparaciones y las operaciones.
+
+    Validación del denominador: Agregué una validación explícita en el bloque init del constructor para asegurar que un denominador cero no pueda ser pasado al crear una nueva fracción.
+
+    Consistencia: Modifiqué los métodos toString() y _simplificar() para que utilicen las propiedades públicas y normalizadas numerador y denominador, en lugar de las variables privadas del constructor.
+
+    Estos cambios cumplen con todos los requisitos de tu consigna y mejoran la robustez y consistencia de la clase.
+
+    ¿Hay alguna otra funcionalidad que te gustaría agregar o probar en el código?
+
+### Prompt 5
+- Fecha: 2025-08-01
+- Herramienta: Gemini
+- Prompt: Ahora necesito que expliques paso a paso lo que hiciste para poder comprenderl, explicame el codigo no las correcciones
+
+Aquí tienes una explicación detallada del código de la clase Fraccion.kt, paso a paso. Me enfocaré en la lógica de cada parte para que comprendas su funcionamiento.
+
+1. La Clase Fraccion y sus Propiedades
+
+Kotlin
+
+class Fraccion(
+    _numerador: Int,
+    _denominador: Int
+) : Comparable<Fraccion>
+
+    Clase Fraccion: Esta es la definición de la clase. Su propósito es representar y manipular fracciones.
+
+    Parámetros del constructor: Al crear una fracción, se deben proporcionar dos números enteros: un numerador y un denominador.
+
+    Comparable<Fraccion>: Esto significa que los objetos de esta clase pueden ser comparados entre sí. Permite usar operadores como >, <, o == de una manera más natural.
+
+2. El Bloque init y la Normalización
+
+El bloque init es crucial; se ejecuta cada vez que se crea un nuevo objeto Fraccion.
+Kotlin
+
+init {
+    require(_denominador != 0) { "El denominador no puede ser cero." }
+    if (_denominador < 0) {
+        this.numerador = -_numerador
+        this.denominador = -_denominador
+    } else {
+        this.numerador = _numerador
+        this.denominador = _denominador
+    }
+}
+
+    Validación de entrada: La línea require(...) es la primera validación. Si el denominador que se pasa al constructor es cero, la aplicación se detendrá con un mensaje de error claro, evitando que se cree una fracción inválida.
+
+    Normalización: Las siguientes líneas manejan las fracciones negativas. El código asegura que el denominador siempre sea positivo. Por ejemplo, si se crea Fraccion(1, -2), el init lo convierte a Fraccion(-1, 2). Esto hace que las operaciones futuras, como la comparación, sean mucho más sencillas y consistentes.
+
+3. Métodos y Funcionalidades Principales
+
+Companion Object
+
+Kotlin
+
+companion object {
+    fun desdeDecimal(decimal: Double): Fraccion { ... }
+}
+
+    Un companion object en Kotlin es similar a los métodos estáticos en otros lenguajes. Contiene funciones que pertenecen a la clase en sí, no a una instancia específica.
+
+    El método desdeDecimal es una utilidad para crear una fracción a partir de un número decimal, como Fraccion.desdeDecimal(0.5). Lo hace multiplicando el decimal por una precisión alta y luego simplifica el resultado.
+
+Operadores Aritméticos
+
+Estos métodos permiten que los operadores de Kotlin (+, -, *, /) funcionen con objetos Fraccion.
+
+    operator fun plus(otra: Fraccion): Fraccion: Suma dos fracciones usando la fórmula matemática de suma de fracciones.
+
+    operator fun minus(otra: Fraccion): Fraccion: Resta dos fracciones de la misma manera.
+
+    operator fun times(otra: Fraccion): Fraccion: Multiplica dos fracciones (numerador por numerador, denominador por denominador).
+
+    operator fun div(otra: Fraccion): Fraccion: Divide dos fracciones. Importante: incluye una validación para evitar la división por una fracción cuyo numerador sea cero, lo que equivaldría a dividir por cero.
+
+Métodos de Comparación y Representación
+
+    override fun toString(): String: Define cómo se convierte una fracción a un String. Cuando usas println(fraccion), este método es el que se llama.
+
+    override operator fun compareTo(otra: Fraccion): Int: Este método es la base para la interfaz Comparable. Compara dos fracciones sin usar decimales para evitar errores de precisión. Devuelve un valor negativo si la primera fracción es menor, cero si son iguales y un valor positivo si es mayor.
+
+    override operator fun equals(other: Any?): Boolean: Este método es fundamental. Para comparar si dos fracciones son iguales, primero las simplifica. De esta forma, Fraccion(1, 2) será igual a Fraccion(2, 4).
+
+    override fun hashCode(): Int: Es una buena práctica sobrescribir este método cuando se sobrescribe equals. Ayuda a que las fracciones se comporten correctamente en colecciones como HashSet o HashMap.
+
+Métodos Utilitarios
+
+    fun _simplificar(): Fraccion: Este método simplifica la fracción a su forma más reducida (ej: 
+    4/8
+
+    se convierte en
+    1/2
+
+    ) dividiendo el numerador y el denominador por su máximo común divisor.
+
+    private fun mcd(a: Int, b: Int): Int: Una función privada que calcula el máximo común divisor (MCD) usando el algoritmo de Euclides. Esta función es la que _simplificar() utiliza internamente.
+
+    fun aDecimal(): Double: Convierte la fracción a su valor decimal.
+
+En resumen, la clase Fraccion está diseñada para ser una representación robusta y completa de un número fraccionario, manejando validaciones, normalización y operaciones de manera segura y eficiente.
+
+¿Hay alguna parte del código que te gustaría que explique con más detalle?
+
+### Prompt 6
+- Fecha: 2025-08-01
+- Herramienta: Gemini
+- Prompt: Agrega la siguiente consigna
+ 5. **Método para crear fracción desde decimal:**
+
+- Crear un método companion object `fun desdeDecimal(decimal: Double): Fraccion` que convierta un decimal a fracción 
+
+Hola. Entendido.
+
+He actualizado los archivos app.kt y Fraccion.kt con el código que me proporcionaste. Ambos archivos ya están listos para que puedas revisarlos y trabajar con ellos.
+
+Agregue lo mas importante que cambio:
+
+companion object {
+        fun desdeDecimal(decimal: Double): Fraccion {
+            val precision = 1000000
+            val numerador = (decimal * precision).toInt()
+            val denominador = precision
+            return Fraccion(numerador, denominador)._simplificar()
+        }
+    }
