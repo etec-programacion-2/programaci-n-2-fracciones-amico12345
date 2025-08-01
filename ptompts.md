@@ -312,3 +312,75 @@ companion object {
             return Fraccion(numerador, denominador)._simplificar()
         }
     }
+
+### Prompt 7
+- Fecha: 2025-08-01
+- Herramienta: Gemini
+- Prompt: explicame esto
+companion object {
+        fun desdeDecimal(decimal: Double): Fraccion {
+            val precision = 1000000
+            val numerador = (decimal * precision).toInt()
+            val denominador = precision
+            return Fraccion(numerador, denominador)._simplificar()
+        }
+override fun hashCode(): Int {
+        val simplificada = this._simplificar()
+        return 31 * simplificada.numerador + simplificada.denominador
+    } 
+
+
+Hola. Con gusto te explico los dos fragmentos de código que seleccionaste del Canvas.
+
+Explicación del companion object y desdeDecimal
+
+El companion object es una forma en Kotlin de crear funciones y propiedades que pertenecen a la clase en sí, en lugar de a una instancia específica de la clase. Es similar a los métodos estáticos en otros lenguajes de programación.
+
+La función desdeDecimal(decimal: Double): Fraccion te permite crear una fracción a partir de un número decimal. Funciona de la siguiente manera:
+
+    val precision = 1000000: Se define una variable de precisión alta. El objetivo es multiplicar el número decimal para convertirlo en un número entero y evitar errores de redondeo. Por ejemplo, si usas 
+    0.25
+
+    , al multiplicarlo por 
+    1,000,000
+
+    , obtienes 
+    250,000.0
+
+    .
+
+    val numerador = (decimal * precision).toInt(): Se calcula el numerador. El número decimal se multiplica por la precisión y luego se convierte a un entero. Usando el ejemplo anterior, el numerador sería 
+    250,000
+
+    .
+
+    val denominador = precision: El denominador es simplemente el valor de la precisión (
+    1,000,000
+
+    ).
+
+    return Fraccion(numerador, denominador)._simplificar(): Se crea una nueva fracción con el numerador y denominador calculados. Inmediatamente después, se llama al método _simplificar() para reducir la fracción a su forma más simple (
+    250,000/1,000,000
+
+    se convierte en
+    1/4
+
+    ) antes de devolverla.
+
+Explicación del override fun hashCode()
+
+El método hashCode() es importante cuando quieres usar objetos de tu clase en colecciones que requieren un hash, como HashSet o HashMap. Su propósito es generar un número entero que sirva como una "huella digital" del objeto.
+
+La implementación en tu código hace lo siguiente:
+
+    val simplificada = this._simplificar(): Primero, simplifica la fracción actual. Esto es crucial porque fracciones como 
+    1/2
+
+    y
+    2/4
+
+     son consideradas iguales, y sus códigos hash deben ser idénticos. Simplificarlas antes de calcular el hash garantiza que esto suceda.
+
+    return 31 * simplificada.numerador + simplificada.denominador: Esta es una fórmula común y efectiva para calcular un código hash a partir de múltiples campos de un objeto. Multiplicar por 31 y luego sumar el otro campo ayuda a generar un valor único y distribuido de manera uniforme, lo cual es importante para el rendimiento de las colecciones basadas en hash.
+
+¿Hay alguna otra parte que te gustaría que explique?
